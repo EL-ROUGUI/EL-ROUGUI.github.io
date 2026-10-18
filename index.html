@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio de ROUGUI El Mehdi, SOC Analyst N1 / Cybersecurity Analyst : SIEM ELK, détection des menaces, NIDS, Zeek, Suricata, Python et Docker.">
+    <title>ROUGUI El Mehdi | SOC Analyst N1 · Cybersecurity Analyst</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            950: '#050d1a',
+                            900: '#0a192f',
+                            800: '#112240',
+                            700: '#1d3557',
+                            600: '#233554',
+                        },
+                        cyber: {
+                            cyan: '#00d4ff',
+                            blue: '#3b82f6',
+                            glow: 'rgba(0, 212, 255, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Grille Cyber & Barre de défilement personnalisée */
+        body {
+            background-color: #0a192f;
+            color: #cbd5e1;
+            overflow-x: hidden;
+        }
+        
+        .cyber-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 212, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 212, 255, 0.04) 1px, transparent 1px);
+        }
+
+        .glass-card {
+            background: rgba(17, 34, 64, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 10px 30px -10px rgba(0, 212, 255, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a192f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #233554;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00d4ff;
+        }
+
+        /* Animation point de statut */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+        .status-dot::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #10b981;
+            border-radius: 9999px;
+            animation: pulse-ring 2s infinite;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-cyber-cyan selection:text-navy-900 cyber-grid relative">
+
+    <!-- Lueurs d'arrière-plan -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-cyber-blue/10 rounded-full blur-3xl pointer-events-none z-0"></div>
+    <div class="fixed bottom-1/4 right-10 w-80 h-80 bg-cyber-cyan/10 rounded-full blur-3xl pointer-events-none z-0"></div>
+
+    <!-- Conteneur de notifications Toast -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full px-4 pointer-events-none"></div>
+
+    <!-- Navigation -->
+    <header id="navbar" class="fixed top-0 w-full z-40 transition-all duration-300 bg-navy-900/85 backdrop-blur-md border-b border-cyber-cyan/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="#accueil" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-lg bg-navy-800 border border-cyber-cyan/50 flex items-center justify-center text-cyber-cyan font-mono font-bold text-lg group-hover:bg-cyber-cyan group-hover:text-navy-900 transition-all shadow-[0_0_15px_rgba(0,212,255,0.2)]">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-white font-bold tracking-wider text-base sm:text-lg">ROUGUI <span class="text-cyber-cyan">El Mehdi</span></span>
+                        <span class="text-[10px] font-mono text-slate-400 tracking-widest uppercase">SOC Analyst N1 · Cybersecurity Analyst</span>
+                    </div>
+                </a>
+
+                <!-- Menu Desktop -->
+                <nav class="hidden md:flex items-center space-x-1 lg:space-x-6 font-mono text-sm">
+                    <a href="#accueil" class="px-3 py-2 text-slate-300 hover:text-cyber-cyan transition-colors"><span class="text-cyber-cyan">01.</span> Accueil</a>
+                    <a href="#apropos" class="px-3 py-2 text-slate-300 hover:text-cyber-cyan transition-colors"><span class="text-cyber-cyan">02.</span> À propos & Stages</a>
+                    <a href="#competences" class="px-3 py-2 text-slate-300 hover:text-cyber-cyan transition-colors"><span class="text-cyber-cyan">03.</span> Compétences</a>
+                    <a href="#projets" class="px-3 py-2 text-slate-300 hover:text-cyber-cyan transition-colors"><span class="text-cyber-cyan">04.</span> Projets</a>
+                    <a href="#certifications" class="px-3 py-2 text-slate-300 hover:text-cyber-cyan transition-colors"><span class="text-cyber-cyan">05.</span> Certifications</a>
+                    <a href="#contact" class="ml-2 px-4 py-2 rounded-lg border border-cyber-cyan text-cyber-cyan hover:bg-cyber-cyan/10 transition-all shadow-[0_0_10px_rgba(0,212,255,0.15)]">
+                        Contact
+                    </a>
+                </nav>
+
+                <!-- Bouton Menu Mobile -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" aria-label="Menu" class="text-slate-300 hover:text-cyber-cyan focus:outline-none p-2 rounded-lg border border-slate-700/60 bg-navy-800/60">
+                        <i id="menu-icon" class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Mobile Déroulant -->
+        <div id="mobile-menu" class="hidden md:hidden bg-navy-800/95 backdrop-blur-xl border-b border-cyber-cyan/20 px-6 pt-4 pb-6 space-y-3 font-mono text-sm">
+            <a href="#accueil" class="mobile-link block py-2.5 text-slate-200 hover:text-cyber-cyan border-b border-slate-700/40"><span class="text-cyber-cyan mr-2">01.</span>Accueil</a>
+            <a href="#apropos" class="mobile-link block py-2.5 text-slate-200 hover:text-cyber-cyan border-b border-slate-700/40"><span class="text-cyber-cyan mr-2">02.</span>À propos & Stages</a>
+            <a href="#competences" class="mobile-link block py-2.5 text-slate-200 hover:text-cyber-cyan border-b border-slate-700/40"><span class="text-cyber-cyan mr-2">03.</span>Compétences</a>
+            <a href="#projets" class="mobile-link block py-2.5 text-slate-200 hover:text-cyber-cyan border-b border-slate-700/40"><span class="text-cyber-cyan mr-2">04.</span>Projets</a>
+            <a href="#certifications" class="mobile-link block py-2.5 text-slate-200 hover:text-cyber-cyan border-b border-slate-700/40"><span class="text-cyber-cyan mr-2">05.</span>Certifications</a>
+            <div class="pt-2">
+                <a href="#contact" class="mobile-link block w-full text-center py-3 rounded-lg bg-cyber-cyan text-navy-900 font-bold hover:bg-cyber-cyan/90 transition-all">
+                    Me Contacter
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenu Principal -->
+    <main class="relative z-10 pt-24 pb-16">
+
+        <!-- 1. SECTION HERO -->
+        <section id="accueil" class="min-h-[calc(100vh-5rem)] flex items-center py-12 lg:py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Colonne Gauche : Présentation -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-navy-800 border border-cyber-cyan/30 text-xs font-mono text-cyber-cyan">
+                            <span class="relative w-2.5 h-2.5 rounded-full bg-emerald-500 status-dot"></span>
+                            <span>Mohammedia, Maroc · Candidature SOC / Cybersécurité</span>
+                        </div>
+
+                        <div class="space-y-2">
+                            <p class="font-mono text-cyber-cyan text-sm sm:text-base tracking-wide">Bonjour, je suis</p>
+                            <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight">
+                                ROUGUI <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-cyan to-cyber-blue glow-text">El Mehdi</span>
+                            </h1>
+                            <h2 class="text-xl sm:text-2xl font-semibold text-slate-300 pt-1">
+                                SOC Analyst N1 <span class="text-cyber-cyan">|</span> SIEM · Threat Detection · Network Security
+                            </h2>
+                        </div>
+
+                        <p class="text-slate-400 text-base sm:text-lg leading-relaxed max-w-2xl">
+                            Jeune diplômé du <strong class="text-slate-200">Master Cybersécurité Intelligente et Technologies Émergentes</strong> à l'<strong class="text-slate-200">Université Mohammed V de Rabat</strong> (2024–2026), orienté <strong class="text-slate-200">SOC / SIEM, analyse de logs et détection des menaces</strong>. Lors de mon PFE chez IT6 Consulting, j’ai conçu et intégré un NIDS basé sur le Machine Learning à une architecture ELK, avec normalisation de flux multi-sources, traitement sous Docker et visualisation dans Kibana. Je cible en priorité les postes <strong class="text-slate-200">SOC Analyst N1</strong> et <strong class="text-slate-200">Cybersecurity Analyst</strong>.
+                        </p>
+
+                        <!-- Badges Résumé -->
+                        <div class="grid grid-cols-3 gap-3 sm:gap-4 pt-2 max-w-lg">
+                            <div class="glass-card p-3 rounded-xl text-center">
+                                <div class="text-cyber-cyan font-mono font-bold text-base sm:text-lg">SOC / SIEM</div>
+                                <div class="text-xs text-slate-400">ELK, Wazuh, Zeek</div>
+                            </div>
+                            <div class="glass-card p-3 rounded-xl text-center">
+                                <div class="text-cyber-cyan font-mono font-bold text-base sm:text-lg">DevSecOps</div>
+                                <div class="text-xs text-slate-400">Python & Docker</div>
+                            </div>
+                            <div class="glass-card p-3 rounded-xl text-center">
+                                <div class="text-cyber-cyan font-mono font-bold text-base sm:text-lg">NIDS & ML</div>
+                                <div class="text-xs text-slate-400">Scikit-Learn</div>
+                            </div>
+                        </div>
+
+                        <!-- Boutons d'action -->
+                        <div class="flex flex-wrap items-center gap-4 pt-4">
+                            <a href="#projets" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyber-cyan to-cyber-blue text-navy-950 font-bold text-sm sm:text-base hover:opacity-95 transition-all shadow-[0_0_20px_rgba(0,212,255,0.3)] flex items-center gap-2">
+                                <i class="fa-solid fa-code-branch"></i>
+                                Voir mes projets
+                            </a>
+                            <button onclick="downloadCV()" class="px-6 py-3.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-white border border-cyber-cyan/40 font-semibold text-sm sm:text-base transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-file-arrow-down text-cyber-cyan"></i>
+                                Télécharger CV
+                            </button>
+                            <a href="https://github.com/EL-ROUGUI" target="_blank" rel="noopener noreferrer" class="px-5 py-3.5 rounded-xl bg-navy-800/70 hover:bg-navy-700 text-slate-200 hover:text-cyber-cyan border border-slate-700 font-mono text-sm transition-colors flex items-center gap-2">
+                                <i class="fa-brands fa-github text-base"></i> EL-ROUGUI
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Colonne Droite : Terminal Interactif -->
+                    <div class="lg:col-span-5">
+                        <div class="glass-card rounded-2xl overflow-hidden shadow-2xl border border-cyber-cyan/30">
+                            <!-- Barre supérieure du Terminal -->
+                            <div class="bg-navy-950 px-4 py-3 flex items-center justify-between border-b border-slate-800">
+                                <div class="flex items-center space-x-2">
+                                    <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                                    <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                                    <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                                </div>
+                                <div class="font-mono text-xs text-slate-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-terminal text-cyber-cyan"></i>
+                                    mehdi@soc-workstation:~
+                                </div>
+                                <button onclick="clearTerminal()" class="text-xs font-mono text-slate-500 hover:text-cyber-cyan transition-colors" title="Effacer le terminal">
+                                    clear
+                                </button>
+                            </div>
+
+                            <!-- Corps du Terminal -->
+                            <div id="terminal-body" class="p-4 sm:p-5 font-mono text-xs sm:text-sm h-80 sm:h-96 overflow-y-auto space-y-3 bg-navy-950/90 text-slate-300">
+                                <div class="text-slate-500">
+                                    # Terminal Interactif — ROUGUI El Mehdi<br>
+                                    # Cliquez sur une commande ci-dessous ou tapez <span class="text-cyber-cyan">'help'</span>
+                                </div>
+
+                                <div>
+                                    <span class="text-emerald-400">mehdi@soc:~$</span> <span class="text-white">whoami</span>
+                                    <div class="pl-3 mt-1 text-slate-300 border-l-2 border-cyber-cyan/40">
+                                        <strong>ROUGUI El Mehdi</strong> — SOC Analyst N1 / Cybersecurity Analyst<br>
+                                        Diplôme : Master Cybersécurité Intelligente, Université Mohammed V de Rabat (2024–2026), diplômé 2026<br>
+                                        Localisation : Mohammedia, Maroc
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <span class="text-emerald-400">mehdi@soc:~$</span> <span class="text-white">skills</span>
+                                    <div class="pl-3 mt-1 text-cyber-cyan/90 border-l-2 border-cyber-cyan/40">
+                                        • <strong>SOC/SIEM :</strong> ELK Stack (Elasticsearch, Logstash, Kibana), Wazuh, Zeek, Suricata, Sysmon, MITRE ATT&CK<br>
+                                        • <strong>DevSecOps :</strong> Python, Docker, FastAPI, Bash/PowerShell, Git<br>
+                                        • <strong>Réseau & Systèmes :</strong> TCP/IP, Linux, Windows, Active Directory<br>
+                                        • <strong>Sécurité offensive :</strong> test d'intrusion web (OWASP Top 10), Kali Linux, Burp Suite, Nmap, Wireshark<br>
+                                        • <strong>Data/IA :</strong> Scikit-Learn, Pandas
+                                    </div>
+                                </div>
+
+                                <div id="terminal-output" class="space-y-3"></div>
+
+                                <!-- Ligne de saisie active -->
+                                <div class="flex items-center pt-1">
+                                    <span class="text-emerald-400 mr-2 shrink-0">mehdi@soc:~$</span>
+                                    <input id="terminal-input" type="text" placeholder="Tapez whoami, skills, stages, projets, certs, contact..." autocomplete="off"
+                                        class="bg-transparent border-none outline-none text-white w-full font-mono text-xs sm:text-sm placeholder-slate-600">
+                                </div>
+                            </div>
+
+                            <!-- Boutons de commandes rapides -->
+                            <div class="bg-navy-900 px-4 py-2.5 border-t border-slate-800 flex flex-wrap items-center gap-1.5">
+                                <span class="text-[11px] font-mono text-slate-400 mr-1">Commandes :</span>
+                                <button onclick="runCommand('whoami')" class="px-2 py-0.5 rounded bg-navy-800 hover:bg-cyber-cyan/20 text-cyber-cyan border border-cyber-cyan/30 font-mono text-xs transition">whoami</button>
+                                <button onclick="runCommand('skills')" class="px-2 py-0.5 rounded bg-navy-800 hover:bg-cyber-cyan/20 text-cyber-cyan border border-cyber-cyan/30 font-mono text-xs transition">skills</button>
+                                <button onclick="runCommand('stages')" class="px-2 py-0.5 rounded bg-navy-800 hover:bg-cyber-cyan/20 text-cyber-cyan border border-cyber-cyan/30 font-mono text-xs transition">stages</button>
+                                <button onclick="runCommand('projets')" class="px-2 py-0.5 rounded bg-navy-800 hover:bg-cyber-cyan/20 text-cyber-cyan border border-cyber-cyan/30 font-mono text-xs transition">projets</button>
+                                <button onclick="runCommand('certs')" class="px-2 py-0.5 rounded bg-navy-800 hover:bg-cyber-cyan/20 text-cyber-cyan border border-cyber-cyan/30 font-mono text-xs transition">certs</button>
+                                <button onclick="runCommand('contact')" class="px-2 py-0.5 rounded bg-navy-800 hover:bg-cyber-cyan/20 text-cyber-cyan border border-cyber-cyan/30 font-mono text-xs transition">contact</button>
+                                <button onclick="runCommand('clear')" class="px-2 py-0.5 rounded bg-navy-800 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-xs transition">clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. SECTION À PROPOS, FORMATION & STAGES -->
+        <section id="apropos" class="py-16 lg:py-24 border-t border-slate-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- En-tête de section -->
+                <div class="flex items-center gap-4 mb-12">
+                    <span class="font-mono text-cyber-cyan text-xl sm:text-2xl font-bold">02.</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">À propos, Formation & Stages</h2>
+                    <div class="h-px bg-slate-700 flex-grow max-w-xs"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Stages & Formation (7 Colonnes) -->
+                    <div class="lg:col-span-7 glass-card rounded-2xl p-6 sm:p-8 space-y-6">
+                        <h3 class="text-xl font-bold text-white flex items-center gap-2.5">
+                            <i class="fa-solid fa-briefcase text-cyber-cyan"></i>
+                            Expériences de Stage & Formation
+                        </h3>
+
+                        <div class="relative pl-6 border-l-2 border-cyber-cyan/40 space-y-8">
+                            <!-- Stage 1 -->
+                            <div class="relative">
+                                <span class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-cyber-cyan border-4 border-navy-900"></span>
+                                <div class="font-mono text-xs text-cyber-cyan mb-1">03/2026 – 08/2026 • Rabat</div>
+                                <h4 class="text-base font-bold text-white">Stage — IT6 Consulting, Rabat</h4>
+                                <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                                    • Conception et intégration d’un service NIDS dans une architecture SIEM ELK.<br>
+                                    • Normalisation de flux NetFlow, CICFlowMeter, Zeek et Suricata ; détection en deux paliers avec HistGradientBoostingClassifier.<br>
+                                    • Pipeline <span class="font-mono text-cyber-cyan text-xs">Zeek → Filebeat → Logstash → FastAPI → Elasticsearch → Kibana</span>, déployé avec <strong class="text-white">Docker</strong>.
+                                </p>
+                            </div>
+
+                            <!-- Stage 2 -->
+                            <div class="relative">
+                                <span class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-navy-700 border-2 border-cyber-cyan"></span>
+                                <div class="font-mono text-xs text-cyber-cyan mb-1">07/2025 – 08/2025 • Casablanca</div>
+                                <h4 class="text-base font-bold text-white">Stage — Evolvity Partners, Casablanca</h4>
+                                <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                                    Développement d’une application Flask pour automatiser des rapports de veille cybersécurité, intégration des API Mistral AI et Gemini, automatisation de tâches OSINT avec SpiderFoot et génération de rapports HTML/PDF. Utilisation de Docker, Git et GitHub.
+                                </p>
+                            </div>
+
+                            <!-- Diplôme -->
+                            <div class="relative">
+                                <span class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-emerald-400 border-4 border-navy-900"></span>
+                                <div class="font-mono text-xs text-emerald-400 mb-1">2024 – 2026 (Diplômé 2026)</div>
+                                <h4 class="text-base font-bold text-white">Master — Cybersécurité Intelligente et Technologies Émergentes</h4>
+                                <p class="text-sm text-slate-300 mt-1">
+                                    Université Mohammed V de Rabat · 2024–2026
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Identité & Langues (5 Colonnes) -->
+                    <div class="lg:col-span-5 glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-6">
+                        <div>
+                            <h3 class="text-xl font-bold text-white flex items-center gap-2.5 mb-5">
+                                <i class="fa-solid fa-id-card text-cyber-cyan"></i>
+                                Fiche d'Identité
+                            </h3>
+                            <ul class="space-y-3.5 text-sm">
+                                <li class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                                    <span class="text-slate-400">Nom</span>
+                                    <span class="text-white font-semibold">ROUGUI El Mehdi</span>
+                                </li>
+                                <li class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                                    <span class="text-slate-400">Titre</span>
+                                    <span class="text-cyber-cyan font-mono font-semibold">SOC Analyst N1 · Cybersecurity Analyst</span>
+                                </li>
+                                <li class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                                    <span class="text-slate-400">Diplôme</span>
+                                    <span class="text-white text-right">Master Cybersécurité Intelligente et Technologies Émergentes</span>
+                                </li>
+                                <li class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                                    <span class="text-slate-400">Université</span>
+                                    <span class="text-white text-right">Université Mohammed V de Rabat</span>
+                                </li>
+                                <li class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                                    <span class="text-slate-400">Localisation</span>
+                                    <span class="text-white text-right">Mohammedia, Maroc</span>
+                                </li>
+                                <li class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                                    <span class="text-slate-400">Email</span>
+                                    <a href="mailto:rouguielmehdi101@gmail.com" class="text-cyber-cyan font-mono text-xs hover:underline">rouguielmehdi101@gmail.com</a>
+                                </li>
+                                <li class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                                    <span class="text-slate-400">Téléphone</span>
+                                    <a href="tel:+212624585823" class="text-cyber-cyan font-mono text-xs hover:underline">+212 624-585-823</a>
+                                </li>
+                                <li class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                                    <span class="text-slate-400">GitHub</span>
+                                    <a href="https://github.com/EL-ROUGUI" target="_blank" rel="noopener noreferrer" class="text-cyber-cyan font-mono text-xs hover:underline">EL-ROUGUI</a>
+                                </li>
+                                <li class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                                    <span class="text-slate-400">LinkedIn</span>
+                                    <a href="https://linkedin.com/in/elmehdi-rougui" target="_blank" rel="noopener noreferrer" class="font-mono text-xs text-cyber-cyan hover:underline">Profil</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Langues -->
+                        <div class="p-4 rounded-xl bg-navy-900/90 border border-cyber-cyan/20">
+                            <div class="text-xs font-mono text-cyber-cyan uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                                <i class="fa-solid fa-language"></i> Langues
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                                <div class="p-2 rounded-lg bg-navy-950 border border-slate-800">
+                                    <div class="text-white font-bold">Arabe</div>
+                                    <div class="text-slate-400 text-[11px]">Natif</div>
+                                </div>
+                                <div class="p-2 rounded-lg bg-navy-950 border border-slate-800">
+                                    <div class="text-white font-bold">Français</div>
+                                    <div class="text-slate-400 text-[11px]">Courant</div>
+                                </div>
+                                <div class="p-2 rounded-lg bg-navy-950 border border-slate-800">
+                                    <div class="text-white font-bold">Anglais</div>
+                                    <div class="text-slate-400 text-[11px]">Courant</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SECTION COMPÉTENCES -->
+        <section id="competences" class="py-16 lg:py-24 border-t border-slate-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- En-tête + Filtres -->
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-12">
+                    <div class="flex items-center gap-4">
+                        <span class="font-mono text-cyber-cyan text-xl sm:text-2xl font-bold">03.</span>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white">Compétences Techniques</h2>
+                        <div class="h-px bg-slate-700 flex-grow sm:w-24"></div>
+                    </div>
+
+                    <!-- Boutons de filtre par catégorie -->
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <button onclick="filterSkills('all')" class="skill-tab active px-3.5 py-1.5 rounded-lg bg-cyber-cyan text-navy-950 font-bold transition-all" data-filter="all">Toutes</button>
+                        <button onclick="filterSkills('soc')" class="skill-tab px-3.5 py-1.5 rounded-lg bg-navy-800 text-slate-300 hover:text-cyber-cyan border border-slate-700 transition-all" data-filter="soc">SOC/SIEM</button>
+                        <button onclick="filterSkills('devsecops')" class="skill-tab px-3.5 py-1.5 rounded-lg bg-navy-800 text-slate-300 hover:text-cyber-cyan border border-slate-700 transition-all" data-filter="devsecops">DevSecOps</button>
+                        <button onclick="filterSkills('reseau')" class="skill-tab px-3.5 py-1.5 rounded-lg bg-navy-800 text-slate-300 hover:text-cyber-cyan border border-slate-700 transition-all" data-filter="reseau">Réseau & Systèmes</button>
+                        <button onclick="filterSkills('offensif')" class="skill-tab px-3.5 py-1.5 rounded-lg bg-navy-800 text-slate-300 hover:text-cyber-cyan border border-slate-700 transition-all" data-filter="offensif">Sécurité offensive</button>
+                        <button onclick="filterSkills('data')" class="skill-tab px-3.5 py-1.5 rounded-lg bg-navy-800 text-slate-300 hover:text-cyber-cyan border border-slate-700 transition-all" data-filter="data">Data/IA</button>
+                    </div>
+                </div>
+
+                <!-- Grille des Compétences -->
+                <div id="skills-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- 1. SOC/SIEM -->
+                    <div class="skill-card glass-card rounded-2xl p-6 flex flex-col justify-between" data-category="soc">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center text-cyber-cyan text-xl">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                                <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/20">SOC / SIEM</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-3">SOC / SIEM</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs pt-2 border-t border-slate-800">
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-cyber-cyan border border-cyber-cyan/20">ELK Stack (Elasticsearch, Logstash, Kibana)</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-slate-200 border border-slate-800">Wazuh</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-slate-200 border border-slate-800">Zeek</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-slate-200 border border-slate-800">Suricata</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-slate-200 border border-slate-800">Sysmon</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-cyber-cyan border border-cyber-cyan/20">MITRE ATT&CK</span>
+                        </div>
+                    </div>
+
+                    <!-- 2. DevSecOps -->
+                    <div class="skill-card glass-card rounded-2xl p-6 flex flex-col justify-between" data-category="devsecops">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center text-cyber-cyan text-xl">
+                                    <i class="fa-brands fa-docker"></i>
+                                </div>
+                                <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/20">DevSecOps</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-3">DevSecOps</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs pt-2 border-t border-slate-800">
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-cyber-cyan border border-cyber-cyan/20">Python</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-cyber-cyan border border-cyber-cyan/20">Docker</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-slate-200 border border-slate-800">FastAPI</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-slate-200 border border-slate-800">Bash/PowerShell</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-slate-200 border border-slate-800">Git</span>
+                        </div>
+                    </div>
+
+                    <!-- 3. Réseau & Systèmes -->
+                    <div class="skill-card glass-card rounded-2xl p-6 flex flex-col justify-between" data-category="reseau">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center text-cyber-cyan text-xl">
+                                    <i class="fa-solid fa-network-wired"></i>
+                                </div>
+                                <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/20">Infrastructure</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-3">Réseau & Systèmes</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs pt-2 border-t border-slate-800">
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-slate-200 border border-slate-800">TCP/IP</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-slate-200 border border-slate-800">Linux</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-slate-200 border border-slate-800">Windows</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-cyber-cyan border border-cyber-cyan/20">Active Directory</span>
+                        </div>
+                    </div>
+
+                    <!-- 4. Sécurité offensive -->
+                    <div class="skill-card glass-card rounded-2xl p-6 flex flex-col justify-between" data-category="offensif">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center text-cyber-cyan text-xl">
+                                    <i class="fa-solid fa-bug"></i>
+                                </div>
+                                <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">Offensif</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-3">Sécurité offensive</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs pt-2 border-t border-slate-800">
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-cyber-cyan border border-cyber-cyan/20">test d'intrusion web (OWASP Top 10)</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-slate-200 border border-slate-800">Kali Linux</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-slate-200 border border-slate-800">Burp Suite</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-slate-200 border border-slate-800">Nmap</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-slate-200 border border-slate-800">Wireshark</span>
+                        </div>
+                    </div>
+
+                    <!-- 5. Data/IA -->
+                    <div class="skill-card glass-card rounded-2xl p-6 flex flex-col justify-between" data-category="data">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center text-cyber-cyan text-xl">
+                                    <i class="fa-solid fa-brain"></i>
+                                </div>
+                                <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Data / IA</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-3">Data / IA</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs pt-2 border-t border-slate-800">
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-cyber-cyan border border-cyber-cyan/20">Scikit-Learn</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-navy-900 text-cyber-cyan border border-cyber-cyan/20">Pandas</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. SECTION PROJETS -->
+        <section id="projets" class="py-16 lg:py-24 border-t border-slate-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- En-tête -->
+                <div class="flex items-center gap-4 mb-4">
+                    <span class="font-mono text-cyber-cyan text-xl sm:text-2xl font-bold">04.</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">Projets Réalisés</h2>
+                    <div class="h-px bg-slate-700 flex-grow max-w-xs"></div>
+                </div>
+                <p class="text-slate-400 max-w-2xl mb-12">
+                    Cliquez sur chaque projet pour afficher les détails complets, les métriques et le pipeline dans une fenêtre modale.
+                </p>
+
+                <!-- Grille des Projets -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                    <!-- Projet 1 : PFE -->
+                    <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group border-cyber-cyan/40">
+                        <div>
+                            <div class="h-44 bg-gradient-to-br from-navy-950 via-navy-800 to-cyber-cyan/20 p-6 relative flex flex-col justify-between border-b border-slate-800">
+                                <div class="flex justify-between items-center">
+                                    <span class="px-3 py-1 rounded-full text-xs font-mono bg-cyber-cyan/15 text-cyber-cyan border border-cyber-cyan/30">
+                                        Projet Phare (PFE)
+                                    </span>
+                                    <span class="font-mono text-xs text-emerald-400">PFE · 2026</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-white leading-snug">SOC Intelligent — NIDS à deux paliers (Machine Learning)</h3>
+                                </div>
+                            </div>
+
+                            <div class="p-6 space-y-4">
+                                <p class="text-sm text-slate-300 leading-relaxed">
+                                    NIDS à deux paliers basé sur <strong class="text-white">HistGradientBoostingClassifier</strong>, avec quatre adaptateurs (NetFlow/IPFIX, CICFlowMeter, Zeek et Suricata). Apprentissage : <strong class="text-white">3 471 916 flux</strong> ; évaluation interne : <strong class="text-white">867 980 flux</strong>.
+                                </p>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center bg-navy-900/90 p-3 rounded-xl border border-slate-800">
+                                    <div>
+                                        <div class="font-mono font-bold text-cyber-cyan text-sm">96,9 %</div>
+                                        <div class="text-[10px] text-slate-400">F1 Palier 1</div>
+                                    </div>
+                                    <div>
+                                        <div class="font-mono font-bold text-cyber-cyan text-sm">99,6 %</div>
+                                        <div class="text-[10px] text-slate-400">F1 Palier 2</div>
+                                    </div>
+                                    <div>
+                                        <div class="font-mono font-bold text-cyber-cyan text-sm">99,6 %</div>
+                                        <div class="text-[10px] text-slate-400">AUC Palier 1</div>
+                                    </div>
+                                    <div>
+                                        <div class="font-mono font-bold text-emerald-400 text-sm">89,73 %</div>
+                                        <div class="text-[10px] text-slate-400">F1 CICIDS2018</div>
+                                    </div>
+                                </div>
+                                <div class="p-2.5 rounded-lg bg-navy-950 border border-slate-800 font-mono text-[11px] text-cyber-cyan">
+                                    Pipeline : Zeek → Filebeat → Logstash → FastAPI → Elasticsearch → Kibana (Docker)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-6 pt-0 space-y-4">
+                            <button onclick="openProjectModal('pfe')" class="w-full py-2.5 px-4 rounded-xl bg-navy-900 hover:bg-cyber-cyan hover:text-navy-950 text-cyber-cyan border border-cyber-cyan/40 font-mono text-xs font-bold transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-sitemap"></i>
+                                Voir les détails du PFE
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Projet 2 : Laboratoire Active Directory -->
+                    <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+                        <div>
+                            <div class="h-44 bg-gradient-to-br from-navy-950 via-navy-800 to-emerald-500/20 p-6 relative flex flex-col justify-between border-b border-slate-800">
+                                <div class="flex justify-between items-center">
+                                    <span class="px-3 py-1 rounded-full text-xs font-mono bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                                        Projet de laboratoire
+                                    </span>
+                                    <i class="fa-solid fa-server text-2xl text-emerald-400/60 group-hover:scale-110 transition-transform"></i>
+                                </div>
+                                <div>
+                                    <div class="font-mono text-xs text-amber-400">Projet systèmes & sécurité</div>
+                                    <h3 class="text-xl font-bold text-white leading-snug">Laboratoire Active Directory</h3>
+                                </div>
+                            </div>
+
+                            <div class="p-6 space-y-4">
+                                <p class="text-sm text-slate-300 leading-relaxed">
+                                    Projet de laboratoire autour d’Active Directory en environnement virtualisé. Le détail des scénarios et résultats n’est pas présenté ici faute d’informations validées supplémentaires.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="p-6 pt-0 space-y-4">
+                            <div class="flex flex-wrap gap-1.5 font-mono text-[11px] pt-2 border-t border-slate-800/80">
+                                <span class="px-2.5 py-1 rounded bg-navy-900 text-cyber-cyan">Active Directory</span>
+                                <span class="px-2.5 py-1 rounded bg-navy-900 text-cyber-cyan">Sysmon</span>
+                                <span class="px-2.5 py-1 rounded bg-navy-900 text-slate-300">Windows</span>
+                            </div>
+
+                            <button onclick="openProjectModal('ad')" class="w-full py-2.5 px-4 rounded-xl bg-navy-900 hover:bg-cyber-cyan hover:text-navy-950 text-cyber-cyan border border-cyber-cyan/40 font-mono text-xs font-bold transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-layer-group"></i>
+                                Voir les détails
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Projet 3 : Test de sécurité d'application web -->
+                    <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+                        <div>
+                            <div class="h-44 bg-gradient-to-br from-navy-950 via-navy-800 to-cyber-blue/25 p-6 relative flex flex-col justify-between border-b border-slate-800">
+                                <div class="flex justify-between items-center">
+                                    <span class="px-3 py-1 rounded-full text-xs font-mono bg-rose-500/15 text-rose-400 border border-rose-500/30">
+                                        OWASP Top 10
+                                    </span>
+                                    <i class="fa-solid fa-shield-virus text-2xl text-rose-400/60 group-hover:scale-110 transition-transform"></i>
+                                </div>
+                                <div>
+                                    <div class="font-mono text-xs text-slate-400">Audit & Remédiation</div>
+                                    <h3 class="text-xl font-bold text-white leading-snug">Test de sécurité d'application web</h3>
+                                </div>
+                            </div>
+
+                            <div class="p-6 space-y-4">
+                                <p class="text-sm text-slate-300 leading-relaxed">
+                                    Audit <strong class="text-white">OWASP Top 10</strong> d'une application web, rapport de vulnérabilités avec recommandations de remédiation.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="p-6 pt-0 space-y-4">
+                            <div class="flex flex-wrap gap-1.5 font-mono text-[11px] pt-2 border-t border-slate-800/80">
+                                <span class="px-2.5 py-1 rounded bg-navy-900 text-cyber-cyan">OWASP Top 10</span>
+                                <span class="px-2.5 py-1 rounded bg-navy-900 text-cyber-cyan">Burp Suite</span>
+                                <span class="px-2.5 py-1 rounded bg-navy-900 text-slate-300">Kali Linux</span>
+                                <span class="px-2.5 py-1 rounded bg-navy-900 text-slate-300">Nmap</span>
+                            </div>
+
+                            <button onclick="openProjectModal('web')" class="w-full py-2.5 px-4 rounded-xl bg-navy-900 hover:bg-cyber-cyan hover:text-navy-950 text-cyber-cyan border border-cyber-cyan/40 font-mono text-xs font-bold transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-file-shield"></i>
+                                Voir les détails
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. SECTION CERTIFICATIONS -->
+        <section id="certifications" class="py-16 lg:py-24 border-t border-slate-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- En-tête -->
+                <div class="flex items-center gap-4 mb-12">
+                    <span class="font-mono text-cyber-cyan text-xl sm:text-2xl font-bold">05.</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">Certifications</h2>
+                    <div class="h-px bg-slate-700 flex-grow max-w-xs"></div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <!-- Certification 1 : IBM -->
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center text-cyber-cyan text-xl mb-4">
+                                <i class="fa-solid fa-certificate"></i>
+                            </div>
+                            <span class="text-xs font-mono text-cyber-cyan uppercase">IBM</span>
+                            <h3 class="text-base font-bold text-white mt-1">Security Operations Center (SOC) in Practice</h3>
+                        </div>
+                        <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between font-mono text-xs">
+                            <span class="text-slate-400">Date</span>
+                            <span class="text-emerald-400 font-semibold">Voir justificatif</span>
+                        </div>
+                    </div>
+
+                    <!-- Certification 2 : TryHackMe -->
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 text-xl mb-4">
+                                <i class="fa-solid fa-flag"></i>
+                            </div>
+                            <span class="text-xs font-mono text-rose-400 uppercase">TryHackMe</span>
+                            <h3 class="text-base font-bold text-white mt-1">Pre Security</h3>
+                        </div>
+                        <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between font-mono text-xs">
+                            <span class="text-slate-400">Date</span>
+                            <span class="text-emerald-400 font-semibold">Voir justificatif</span>
+                        </div>
+                    </div>
+
+                    <!-- Certification 3 : SkillFront -->
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-cyber-blue/10 border border-cyber-blue/30 flex items-center justify-center text-cyber-blue text-xl mb-4">
+                                <i class="fa-solid fa-shield-check"></i>
+                            </div>
+                            <span class="text-xs font-mono text-cyber-blue uppercase">SkillFront</span>
+                            <h3 class="text-base font-bold text-white mt-1">ISO/IEC 27001 Information Security Associate</h3>
+                        </div>
+                        <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between font-mono text-xs">
+                            <span class="text-slate-400">Date</span>
+                            <span class="text-emerald-400 font-semibold">Voir justificatif</span>
+                        </div>
+                    </div>
+
+                    <!-- Certification 4 : Forage -->
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl mb-4">
+                                <i class="fa-solid fa-chart-pie"></i>
+                            </div>
+                            <span class="text-xs font-mono text-emerald-400 uppercase">Forage</span>
+                            <h3 class="text-base font-bold text-white mt-1">Accenture Data Analytics and Visualization</h3>
+                        </div>
+                        <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between font-mono text-xs">
+                            <span class="text-slate-400">Date</span>
+                            <span class="text-emerald-400 font-semibold">Voir justificatif</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. SECTION CONTACT -->
+        <section id="contact" class="py-16 lg:py-24 border-t border-slate-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- En-tête -->
+                <div class="flex items-center gap-4 mb-12">
+                    <span class="font-mono text-cyber-cyan text-xl sm:text-2xl font-bold">06.</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">Contact</h2>
+                    <div class="h-px bg-slate-700 flex-grow max-w-xs"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                    
+                    <!-- Coordonnées Directes -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <div class="glass-card rounded-2xl p-6 sm:p-8 space-y-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-2">Me Contacter</h3>
+                                <p class="text-sm text-slate-400 leading-relaxed">
+                                    Je recherche en priorité un poste de <strong class="text-slate-200">SOC Analyst N1</strong> ou <strong class="text-slate-200">Cybersecurity Analyst</strong>. Basé à <strong class="text-slate-200">Mohammedia, Maroc</strong>.
+                                </p>
+                            </div>
+
+                            <div class="space-y-4">
+                                <!-- Email avec bouton Copier -->
+                                <div class="flex items-center justify-between p-3.5 rounded-xl bg-navy-900 border border-slate-800">
+                                    <div class="flex items-center gap-3.5 min-w-0">
+                                        <div class="w-10 h-10 rounded-lg bg-cyber-cyan/10 text-cyber-cyan flex items-center justify-center shrink-0">
+                                            <i class="fa-solid fa-envelope"></i>
+                                        </div>
+                                        <div class="truncate">
+                                            <div class="text-xs text-slate-400">Email</div>
+                                            <div id="email-text" class="text-sm font-mono text-white truncate">rouguielmehdi101@gmail.com</div>
+                                            <a href="tel:+212624585823" class="text-xs font-mono text-cyber-cyan hover:underline">+212 624-585-823</a>
+                                        </div>
+                                    </div>
+                                    <button onclick="copyEmail()" class="ml-2 px-3 py-1.5 rounded-lg bg-navy-800 hover:bg-cyber-cyan hover:text-navy-950 text-xs font-mono text-cyber-cyan border border-cyber-cyan/30 transition shrink-0">
+                                        Copier
+                                    </button>
+                                </div>
+
+                                <!-- GitHub -->
+                                <div class="flex items-center justify-between p-3.5 rounded-xl bg-navy-900 border border-slate-800">
+                                    <div class="flex items-center gap-3.5 min-w-0">
+                                        <div class="w-10 h-10 rounded-lg bg-cyber-cyan/10 text-cyber-cyan flex items-center justify-center shrink-0">
+                                            <i class="fa-brands fa-github"></i>
+                                        </div>
+                                        <div class="truncate">
+                                            <div class="text-xs text-slate-400">GitHub</div>
+                                            <a href="https://github.com/EL-ROUGUI" target="_blank" rel="noopener noreferrer" class="text-sm font-mono text-cyber-cyan hover:underline truncate block">https://github.com/EL-ROUGUI</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- LinkedIn -->
+                                <div class="flex items-center gap-3.5 p-3.5 rounded-xl bg-navy-900 border border-slate-800">
+                                    <div class="w-10 h-10 rounded-lg bg-cyber-cyan/10 text-cyber-cyan flex items-center justify-center shrink-0">
+                                        <i class="fa-brands fa-linkedin"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-slate-400">LinkedIn</div>
+                                        <a href="https://linkedin.com/in/elmehdi-rougui" target="_blank" rel="noopener noreferrer" class="text-sm font-mono text-cyber-cyan hover:underline">linkedin.com/in/elmehdi-rougui</a>
+                                    </div>
+                                </div>
+
+                                <!-- Localisation -->
+                                <div class="flex items-center gap-3.5 p-3.5 rounded-xl bg-navy-900 border border-slate-800">
+                                    <div class="w-10 h-10 rounded-lg bg-cyber-cyan/10 text-cyber-cyan flex items-center justify-center shrink-0">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-slate-400">Localisation</div>
+                                        <div class="text-sm font-medium text-white">Mohammedia, Maroc</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulaire de Contact Décoratif -->
+                    <div class="lg:col-span-7">
+                        <form id="contact-form" class="glass-card rounded-2xl p-6 sm:p-8 space-y-5" novalidate>
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
+                                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-paper-plane text-cyber-cyan text-sm"></i>
+                                    Formulaire de contact
+                                </h3>
+                                <span class="font-mono text-xs text-cyber-cyan">rouguielmehdi101@gmail.com</span>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label for="name" class="block text-xs font-mono text-slate-300 uppercase mb-2">Nom complet</label>
+                                    <input type="text" id="name" required placeholder="Votre nom"
+                                        class="w-full px-4 py-3 rounded-xl bg-navy-900 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyber-cyan transition">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-xs font-mono text-slate-300 uppercase mb-2">Votre Email</label>
+                                    <input type="email" id="email" required placeholder="votre.email@domaine.com"
+                                        class="w-full px-4 py-3 rounded-xl bg-navy-900 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyber-cyan transition">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="subject" class="block text-xs font-mono text-slate-300 uppercase mb-2">Objet</label>
+                                <input type="text" id="subject" placeholder="Opportunité SOC Analyst N1 / Cybersecurity Analyst"
+                                    class="w-full px-4 py-3 rounded-xl bg-navy-900 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyber-cyan transition">
+                            </div>
+
+                            <div>
+                                <label for="message" class="block text-xs font-mono text-slate-300 uppercase mb-2">Message</label>
+                                <textarea id="message" rows="4" required placeholder="Bonjour El Mehdi..."
+                                    class="w-full px-4 py-3 rounded-xl bg-navy-900 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyber-cyan transition"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-cyber-cyan to-cyber-blue text-navy-950 font-bold text-sm sm:text-base hover:opacity-95 transition-all shadow-[0_0_20px_rgba(0,212,255,0.25)] flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-envelope"></i>
+                                <span>Envoyer à rouguielmehdi101@gmail.com</span>
+                            </button>
+
+                            <p class="text-center font-mono text-xs text-slate-400">
+                                Contact direct par email : <a href="mailto:rouguielmehdi101@gmail.com" class="text-cyber-cyan hover:underline">rouguielmehdi101@gmail.com</a>
+                            </p>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pied de page -->
+    <footer class="border-t border-slate-800/80 bg-navy-950 py-8 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
+            <div>
+                © 2026 <span class="text-slate-300 font-semibold">ROUGUI El Mehdi</span> — SOC Analyst N1 / Cybersecurity Analyst
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="https://github.com/EL-ROUGUI" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-cyber-cyan">GitHub : EL-ROUGUI</a>
+                <a href="#accueil" class="text-cyber-cyan hover:underline">Haut de page ↑</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODALE DÉTAILS PROJETS -->
+    <div id="project-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-navy-950/80 backdrop-blur-md">
+        <div class="glass-card rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-cyber-cyan/40 shadow-2xl p-6 sm:p-8 relative">
+            <button onclick="closeProjectModal()" class="absolute top-5 right-5 w-9 h-9 rounded-lg bg-navy-900 text-slate-400 hover:text-white border border-slate-700 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modal-content" class="space-y-5"></div>
+        </div>
+    </div>
+
+    <!-- Logique JavaScript -->
+    <script>
+        // Menu Mobile
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            } else {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            }
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            });
+        });
+
+        // Notifications Toast (sans alert())
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const borderColor = type === 'success' ? 'border-emerald-400' : 'border-cyber-cyan';
+            const icon = type === 'success' ? 'fa-circle-check text-emerald-400' : 'fa-terminal text-cyber-cyan';
+
+            toast.className = `pointer-events-auto flex items-center gap-3 p-4 rounded-xl bg-navy-900/95 border ${borderColor} shadow-2xl text-xs sm:text-sm text-white transition-all duration-300`;
+            toast.innerHTML = `
+                <i class="fa-solid ${icon} text-lg shrink-0"></i>
+                <div class="font-mono">${message}</div>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // Terminal Interactif — uniquement les vraies informations
+        const terminalInput = document.getElementById('terminal-input');
+        const terminalOutput = document.getElementById('terminal-output');
+        const terminalBody = document.getElementById('terminal-body');
+
+        const commands = {
+            help: `Commandes disponibles : <span class="text-cyber-cyan">whoami</span>, <span class="text-cyber-cyan">skills</span>, <span class="text-cyber-cyan">stages</span>, <span class="text-cyber-cyan">projets</span>, <span class="text-cyber-cyan">certs</span>, <span class="text-cyber-cyan">contact</span>, <span class="text-cyber-cyan">clear</span>`,
+            whoami: `<strong>ROUGUI El Mehdi</strong> — SOC Analyst N1 / Cybersecurity Analyst<br>Master : Cybersécurité Intelligente et Technologies Émergentes, Université Mohammed V de Rabat (2024–2026)<br>Localisation : Mohammedia, Maroc<br>Langues : Arabe (langue maternelle), français et anglais (courants)`,
+            skills: `• <strong>SOC/SIEM :</strong> ELK Stack (Elasticsearch, Logstash, Kibana), Wazuh, Zeek, Suricata, Sysmon, MITRE ATT&CK<br>• <strong>DevSecOps :</strong> Python, Docker, FastAPI, Bash/PowerShell, Git<br>• <strong>Réseau & Systèmes :</strong> TCP/IP, Linux, Windows, Active Directory<br>• <strong>Sécurité offensive :</strong> test d'intrusion web (OWASP Top 10), Kali Linux, Burp Suite, Nmap, Wireshark<br>• <strong>Data/IA :</strong> Scikit-Learn, Pandas`,
+            stages: `1) <strong>IT6 Consulting, Rabat (03–08/2026) :</strong> missions d'audit, pipeline Zeek → Filebeat → Logstash → FastAPI → Elasticsearch → Kibana, déployé en Docker<br>2) <strong>Evolvity Partners, Casablanca (07–08/2025) :</strong> automatisation de rapports de veille cyber, intégration Mistral AI/Gemini, OSINT avec SpiderFoot et génération HTML/PDF`,
+            projets: `1) <strong>SOC Intelligent — NIDS à deux paliers (Machine Learning) [PFE] :</strong> HistGradientBoosting à 2 paliers, 4 adaptateurs (NetFlow/IPFIX, CICFlowMeter, Zeek, Suricata), 3 471 916 flux d’apprentissage ; 867 980 flux d’évaluation interne. F1 Palier 1 : 96,9 % | F1 Palier 2 : 99,6 % | Validation externe CICIDS2018 : 89,73 %. PFE réalisé en 2026.<br>2) <strong>Laboratoire Active Directory :</strong> projet académique en environnement virtualisé ; détails techniques complémentaires non précisés.<br>3) <strong>Test de sécurité d'application web :</strong> audit OWASP Top 10 d'une application web, rapport de vulnérabilités avec recommandations de remédiation.`,
+            certs: `1. IBM — SOC in Practice<br>2. TryHackMe — Pre Security<br>3. ISO 27001 — Information Security Associate<br>4. Accenture — Data Analytics (Forage)`,
+            contact: `Email : <span class="text-cyber-cyan">rouguielmehdi101@gmail.com</span><br>GitHub : <a href="https://github.com/EL-ROUGUI" target="_blank" class="text-cyber-cyan underline">https://github.com/EL-ROUGUI</a> (EL-ROUGUI)<br>LinkedIn : https://linkedin.com/in/elmehdi-rougui<br>Localisation : Mohammedia, Maroc`
+        };
+
+        function runCommand(cmdText) {
+            const cmd = cmdText.trim().toLowerCase();
+            if (!cmd) return;
+
+            if (cmd === 'clear') {
+                clearTerminal();
+                return;
+            }
+
+            const block = document.createElement('div');
+            const response = commands[cmd] || `Commande introuvable : '${cmd}'. Tapez <span class="text-cyber-cyan">'help'</span> pour la liste des commandes.`;
+
+            block.innerHTML = `
+                <div><span class="text-emerald-400">mehdi@soc:~$</span> <span class="text-white">${cmd}</span></div>
+                <div class="pl-3 mt-1 text-slate-300 border-l-2 border-cyber-cyan/40">${response}</div>
+            `;
+            terminalOutput.appendChild(block);
+            terminalBody.scrollTop = terminalBody.scrollHeight;
+        }
+
+        function clearTerminal() {
+            terminalOutput.innerHTML = '';
+        }
+
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                runCommand(terminalInput.value);
+                terminalInput.value = '';
+            }
+        });
+
+        // Filtrage des compétences
+        function filterSkills(category) {
+            const cards = document.querySelectorAll('.skill-card');
+            const tabs = document.querySelectorAll('.skill-tab');
+
+            tabs.forEach(tab => {
+                if (tab.dataset.filter === category) {
+                    tab.className = 'skill-tab active px-3.5 py-1.5 rounded-lg bg-cyber-cyan text-navy-950 font-bold transition-all';
+                } else {
+                    tab.className = 'skill-tab px-3.5 py-1.5 rounded-lg bg-navy-800 text-slate-300 hover:text-cyber-cyan border border-slate-700 transition-all';
+                }
+            });
+
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Modales des Projets
+        const projectDetails = {
+            pfe: {
+                tag: "Projet phare — PFE 2026",
+                title: "SOC Intelligent — NIDS à deux paliers (Machine Learning)",
+                description: "NIDS intelligent à deux paliers basé sur HistGradientBoostingClassifier, avec quatre adaptateurs de données (NetFlow/IPFIX, CICFlowMeter, Zeek et Suricata), intégré à une architecture SIEM ELK.",
+                details: [
+                    "Partition d’apprentissage : 3 471 916 flux ; évaluation interne : 867 980 flux.",
+                    "Palier 1 : F1 agrégé 96,9 % et AUC 99,6 %.",
+                    "Palier 2 : F1 agrégé 99,6 % sur cinq catégories.",
+                    "Évaluation disjointe CICIDS2018 : F1 89,73 % au Palier 1.",
+                    "Pipeline : Zeek → Filebeat → Logstash → FastAPI → Elasticsearch → Kibana, déployé avec Docker.",
+                    "Les résultats dépendent des jeux de données et des conditions d’évaluation ; ils ne constituent pas une garantie de performance en production."
+                ]
+            },
+            ad: {
+                tag: "Réseau & Systèmes — Terminé octobre 2026",
+                title: "Laboratoire Active Directory",
+                description: "Projet de laboratoire Active Directory en environnement virtualisé. Les scénarios détaillés et métriques ne sont pas renseignés ici.",
+                details: [
+                    "Environnement Active Directory virtualisé.",
+                    "Projet académique / laboratoire ; les détails techniques supplémentaires restent à documenter."
+                ]
+            },
+            web: {
+                tag: "Sécurité offensive — OWASP Top 10",
+                title: "Test de sécurité d'application web",
+                description: "Audit OWASP Top 10 d'une application web, rapport de vulnérabilités avec recommandations de remédiation.",
+                details: [
+                    "Audit OWASP Top 10 d'une application web",
+                    "Rapport de vulnérabilités avec recommandations de remédiation",
+                    "Projet académique ; détails techniques supplémentaires non renseignés."
+                ]
+            }
+        };
+
+        function openProjectModal(projectId) {
+            const data = projectDetails[projectId];
+            if (!data) return;
+
+            const modal = document.getElementById('project-modal');
+            const content = document.getElementById('modal-content');
+
+            content.innerHTML = `
+                <div class="inline-block px-3 py-1 rounded-full text-xs font-mono bg-cyber-cyan/15 text-cyber-cyan border border-cyber-cyan/30">
+                    ${data.tag}
+                </div>
+                <h3 class="text-2xl font-bold text-white">${data.title}</h3>
+                <p class="text-sm text-slate-300 leading-relaxed">${data.description}</p>
+
+                <div class="bg-navy-900/90 p-5 rounded-xl border border-slate-800 space-y-3">
+                    <h4 class="text-sm font-mono font-bold text-cyber-cyan uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-list-check"></i> Points clés & Résultats
+                    </h4>
+                    <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300">
+                        ${data.details.map(item => `
+                            <li class="flex items-start gap-2.5">
+                                <span class="text-cyber-cyan font-mono">▹</span>
+                                <span>${item}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeProjectModal() {
+            document.getElementById('project-modal').classList.add('hidden');
+        }
+
+        document.getElementById('project-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'project-modal') closeProjectModal();
+        });
+
+        // Copier l'email dans le presse-papiers
+        function copyEmail() {
+            const email = 'rouguielmehdi101@gmail.com';
+            const tempInput = document.createElement('textarea');
+            tempInput.value = email;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast('Email rouguielmehdi101@gmail.com copié !', 'success');
+        }
+
+        // Télécharger le CV PDF fourni, placé à côté de ce fichier HTML.
+        function downloadCV() {
+            const a = document.createElement('a');
+            a.href = 'CV_Rougui_Soc_Analyst.pdf';
+            a.download = 'CV_Rougui_Soc_Analyst.pdf';
+            a.rel = 'noopener';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            showToast('Téléchargement du CV PDF lancé.', 'success');
+        }
+
+        // Le formulaire ouvre un brouillon e-mail prérempli (aucun serveur backend requis).
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const subject = document.getElementById('subject').value.trim() || 'Contact professionnel — Portfolio SOC';
+            const message = document.getElementById('message').value.trim();
+            const body = `Bonjour ROUGUI El Mehdi,\n\n${message}\n\nCordialement,\n${name}`;
+            const mailto = `mailto:rouguielmehdi101@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailto;
+        });
+    </script>
+</body>
+</html>
